@@ -12,7 +12,37 @@
             <span class="badge badge-pill badge-success mr-2" v-for="genre in film.genres" :key="genre.id">{{ genre.name }}</span> | {{ film.release_date }}
             <p class="h5 mt-5 sub-title">Overview</p>
             <p class="sub-text text-secondary">{{ film.overview }}</p>
-            <button class="btn btn-primary btn-order float-right mt-5 btn-lg" @click="order(film.id)">ORDER</button>
+            <button 
+              class="btn btn-primary btn-order float-right mt-5 btn-lg"
+              @click="showOrder()"
+              data-toggle="modal" 
+              :data-target="userActive == null ? '' : '#modalOrder'">ORDER</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="modalOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group row">
+                      <label for="inputQty" class="col-sm-2 col-form-label">Qty</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control" id="inputQty" placeholder="Qty" v-model="inputQty">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" @click="orderNow(film.id)">Order</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col-4">
             <img :src="'https://image.tmdb.org/t/p/w600_and_h900_bestv2/'+film.poster_path" class="img-fluid shadow" alt="Responsive image">
@@ -38,7 +68,9 @@ export default {
   data() {
     return {
       film: '',
-      userActive: ''
+      userActive: [],
+      inputQty: '',
+      order: []
     }
   },
   mounted: function () {
@@ -54,15 +86,26 @@ export default {
       this.error = error
     });
 
-    this.userActive = localStorage.getItem('dataUser')
+    this.userActive = JSON.parse(localStorage.getItem("dataUser"))
+    this.order = JSON.parse(localStorage.getItem("order"))
   },
   methods: {
-    order(id) {
+    showOrder() {
       if (this.userActive == null) {
         alert('login dulu')
       } else {
-        alert('bisa order')
+        return false;
       }
+    },
+    orderNow(id) {
+      const dataOrder = {
+        film_id: id,
+        qty: this.inputQty,
+        user: this.userActive
+      }
+      this.order.push(dataOrder)
+      const asdf = JSON.stringify(this.order)
+      localStorage.setItem('order', asdf)
     }
   },
 }
