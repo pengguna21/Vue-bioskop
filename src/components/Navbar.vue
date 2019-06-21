@@ -11,12 +11,13 @@
                         <router-link to="/" class="nav-link">Home <span class="sr-only">(current)</span></router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link">About</a>
                     </li>
                     <li class="nav-item" v-if="userActive === null">
                         <router-link to="/login" class="btn btn-success btn-fix">LOGIN</router-link>
                     </li>
-                    <li class="nav-item" v-else>
+                    <li class="nav-item d-flex" v-else>
+                        <a class="nav-link">Hello, {{ userActive.username }}</a>
                         <button @click="logout()" class="btn btn-danger btn-fix">LOGOUT</button>
                     </li>
                 </ul> 
@@ -28,10 +29,13 @@
 <script>
 export default {
     name: 'navbar',
-    computed: {
-        userActive() {
-            return localStorage.getItem('dataUser')
-        }  
+    data() {
+        return {
+            userActive: ''
+        }
+    },
+    mounted() {
+        this.userActive = JSON.parse(localStorage.getItem('dataUser'))
     },
     methods: {
         logout() {
@@ -58,7 +62,7 @@ export default {
     }
 
     .btn-fix{
-        border-radius: 0;
+        border-radius: 50px;
         padding-right: 30px;
         padding-left: 30px;
     }

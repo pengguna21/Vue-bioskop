@@ -1,5 +1,6 @@
 <template>
     <div class="login">
+        <router-link to="/">HOME</router-link>
         <input type="text" v-model="username">
         <input type="text" v-model="password">
         <button @click="doLogin()">login</button>

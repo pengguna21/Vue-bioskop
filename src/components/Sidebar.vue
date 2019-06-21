@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar d-none d-md-flex">
     <div class="list-group">
-      <a class="list-group-item list-group-item-action brand">Movie</a>
+      <router-link to="/" class="list-group-item list-group-item-action brand">Movie</router-link>
       <a class="list-group-item list-group-item-action active">Popular in</a>
       <a class="list-group-item list-group-item-action">Latest</a>
       <a class="list-group-item list-group-item-action">Now Playing</a>
@@ -49,5 +49,9 @@ export default {
   .brand{
     font-size: 26px;
     margin-bottom: 30px;
+
+    &:hover{
+      color: hsl(0, 0, 95) !important;
+    }
   }
 </style>1

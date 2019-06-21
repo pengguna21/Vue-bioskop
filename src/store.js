@@ -6,14 +6,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     data: {
-      error: '',
-      userActive: []
+      error: ''
     }
   },
   mutations: {
-    setUser(state, payload) {
-      state.data.userActive = payload
-    },
     setError(state, payload) {
       state.data.error = payload
     }
@@ -26,7 +22,6 @@ export default new Vuex.Store({
           password: payload.password
         }
         const dataUser = JSON.stringify(user)
-        commit('setUser', dataUser)
         localStorage.setItem("dataUser", dataUser)
         commit('setError', '')
       } else {
